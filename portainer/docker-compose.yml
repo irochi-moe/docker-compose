@@ -1,0 +1,14 @@
+volumes:
+  portainer_data: {}
+
+services:
+  portainer:
+    image: portainer/portainer-ce
+    container_name: portainer
+    privileged: true
+    ports:
+      - "82:9000"
+    volumes:
+      - "./portainer:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    restart: always
