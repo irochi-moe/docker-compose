@@ -1,0 +1,11 @@
+services:
+  npmplus:
+    container_name: npmplus
+    image: zoeyvid/npmplus
+    restart: always
+    network_mode: host
+    volumes:
+      - "./data:/data"
+    environment:
+      - "TZ=Asia/Seoul"
+      - "ACME_EMAIL=me@irochi.moe"
