@@ -6,6 +6,23 @@ services:
     network_mode: host
     volumes:
       - "./data:/data"
+    depends_on:
+      - crowdsec
     environment:
       - "TZ=Asia/Seoul"
       - "ACME_EMAIL=me@irochi.moe"
+      - "LOGROTATE=true"
+      - "LOGROTATIONS=7"
+
+  crowdsec:
+    container_name: crowdsec
+    image: crowdsecurity/crowdsec
+    restart: always
+    network_mode: host
+    environment:
+      - "TZ=Asia/Seoul"
+      - "COLLECTIONS=ZoeyVid/npmplus"
+    volumes:
+      - "./crowdsec/conf:/etc/crowdsec"
+      - "./crowdsec/data:/var/lib/crowdsec/data"
+      - "./data/nginx:/opt/npmplus/nginx:ro"
