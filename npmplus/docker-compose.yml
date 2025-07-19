@@ -1,7 +1,7 @@
 services:
   npmplus:
-    container_name: npmplus
     image: zoeyvid/npmplus
+    container_name: npmplus
     restart: always
     network_mode: host
     volumes:
@@ -15,13 +15,14 @@ services:
       - "LOGROTATIONS=7"
 
   crowdsec:
-    container_name: crowdsec
     image: crowdsecurity/crowdsec
+    container_name: crowdsec
     restart: always
     network_mode: host
     environment:
       - "TZ=Asia/Seoul"
       - "COLLECTIONS=ZoeyVid/npmplus"
+      - "PARSERS=crowdsecurity/geoip-enrich"
     volumes:
       - "./crowdsec/conf:/etc/crowdsec"
       - "./crowdsec/data:/var/lib/crowdsec/data"

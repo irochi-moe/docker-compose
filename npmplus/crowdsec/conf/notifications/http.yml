@@ -1,0 +1,13 @@
+type: http
+name: http_default
+log_level: info
+format: >
+  {{- range $Alert := . -}}
+  {{- range .Decisions -}}
+  {"metric":{"__name__":"cs_lapi_decision","instance":"irochi","country":"{{$Alert.Source.Cn}}","asname":"{{$Alert.Source.AsName}}","asnumber":"{{$Alert.Source.AsNumber}}","latitude":"{{$Alert.Source.Latitude}}","longitude":"{{$Alert.Source.Longitude}}","iprange":"{{$Alert.Source.Range}}","scenario":"{{.Scenario}}","type":"{{.Type}}","duration":"{{.Duration}}","scope":"{{.Scope}}","ip":"{{.Value}}"},"values": [1],"timestamps":[{{now|unixEpoch}}000]}
+  {{- end }}
+  {{- end -}}
+url: http://127.0.0.1:8428/api/v1/import
+method: POST
+headers:
+  Content-Type: application/jso

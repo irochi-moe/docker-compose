@@ -1,0 +1,3 @@
+name: default_ip_remediation
+notifications:
+  - http_default
