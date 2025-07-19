@@ -5,6 +5,7 @@ networks:
 volumes:
   grafana-data: {}
   prometheus-data: {}
+  victoriametrics-data: {}
 
 services:
   grafana:
@@ -19,6 +20,7 @@ services:
     restart: always
     depends_on:
       - prometheus
+      - victoriametrics
     networks:
       - monitoring
 
@@ -33,6 +35,7 @@ services:
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
+      - "--web.enable-lifecycle"
     restart: always
     networks:
       - monitoring
@@ -50,7 +53,21 @@ services:
       - "--path.sysfs=/host/sys"
       - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
     ports:
-      - "9100:9100"
+      - 9100:9100
+    restart: always
+    networks:
+      - monitoring
+
+  victoriametrics:
+    image: victoriametrics/victoria-metrics
+    container_name: victoriametrics
+    ports:
+      - 8428:8428
+    volumes:
+      - victoriametrics-data:/victoria-metrics-data
+    command:
+      - "--storageDataPath=/victoria-metrics-data"
+      - "--retentionPeriod=10y"
     restart: always
     networks:
       - monitoring
