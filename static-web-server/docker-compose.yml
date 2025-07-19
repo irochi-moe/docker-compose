@@ -6,6 +6,7 @@ services:
       - 8087:80
     restart: always
     environment:
+      - TZ=Asia/Seoul
       - SERVER_ROOT=/var/public
       - SERVER_ERROR_PAGE_404=404.html
       - SERVER_ERROR_PAGE_50X=50x.html

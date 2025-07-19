@@ -12,3 +12,5 @@ services:
       - "./portainer:/data"
       - "/var/run/docker.sock:/var/run/docker.sock"
     restart: always
+    environment:
+      - "TZ=Asia/Seoul"
