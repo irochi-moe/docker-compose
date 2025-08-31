@@ -4,7 +4,7 @@ services:
     container_name: blocky
     restart: unless-stopped
     network_mode: host
-    hostname: kurumi
+    hostname: <CHANGE_HERE>
     environment:
       - TZ=Asia/Seoul
     volumes:
