@@ -1,0 +1,13 @@
+services:
+  blocky:
+    image: spx01/blocky
+    container_name: blocky
+    restart: unless-stopped
+    network_mode: host
+    hostname: kurumi
+    environment:
+      - TZ=Asia/Seoul
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config.yml:/app/config.yml:ro
+      - ./logs:/logs

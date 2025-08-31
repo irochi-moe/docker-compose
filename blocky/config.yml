@@ -1,0 +1,79 @@
+upstreams:
+  init:
+    strategy: fast
+  groups:
+    default:
+      - 1.1.1.1
+      - 1.0.0.1
+      - 8.8.8.8
+      - 8.8.4.4
+  strategy: parallel_best
+  timeout: 2s
+
+connectIPVersion: v4
+
+blocking:
+  denylists:
+    ads:
+      - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.txt
+      - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt
+      - https://small.oisd.nl/domainswild
+      - https://adaway.org/hosts.txt
+  clientGroupsBlock:
+    default:
+      - ads
+  blockType: zeroIp
+  blockTTL: 2h
+  loading:
+    refreshPeriod: 4h
+    downloads:
+      timeout: 60s
+      attempts: 5
+      cooldown: 10s
+    concurrency: 8
+    strategy: failOnError
+
+caching:
+  minTime: 5m
+  maxTime: 30m
+  prefetching: true
+  prefetchExpires: 24h
+  prefetchThreshold: 5
+  cacheTimeNegative: 30m
+
+prometheus:
+  enable: true
+  path: /metrics
+
+bootstrapDns:
+  - tcp+udp:1.1.1.1
+
+queryLog:
+  type: csv
+  target: /logs
+  logRetentionDays: 7
+  creationAttempts: 1
+  fields:
+    - clientIP
+    - duration
+    - responseReason
+
+minTlsServeVersion: 1.3
+
+filtering:
+  queryTypes:
+    - AAAA
+
+ports:
+  dns: 53
+  tls: 853
+  https: 443
+  http: 4000
+
+ede:
+  enable: true
+
+log:
+  level: info
+  format: text
+  timestamp: true
