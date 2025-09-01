@@ -17,21 +17,22 @@ blocking:
     ads:
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/pro.txt
       - https://raw.githubusercontent.com/hagezi/dns-blocklists/main/wildcard/tif.txt
+      - https://raw.githubusercontent.com/yous/YousList/master/hosts.txt
       - https://small.oisd.nl/domainswild
       - https://adaway.org/hosts.txt
   clientGroupsBlock:
     default:
       - ads
   blockType: zeroIp
-  blockTTL: 2h
+  blockTTL: 30m
   loading:
     refreshPeriod: 4h
     downloads:
       timeout: 60s
       attempts: 5
       cooldown: 10s
-    concurrency: 8
-    strategy: failOnError
+    concurrency: 16
+    strategy: fast
 
 caching:
   minTime: 5m
@@ -39,7 +40,6 @@ caching:
   prefetching: true
   prefetchExpires: 24h
   prefetchThreshold: 5
-  cacheTimeNegative: 30m
 
 prometheus:
   enable: true
@@ -55,6 +55,7 @@ queryLog:
   creationAttempts: 1
   fields:
     - clientIP
+    - question
     - duration
     - responseReason
 
